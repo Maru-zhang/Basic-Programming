@@ -12,34 +12,39 @@
 using namespace std;
 
 
-int n[] = {11,2,7,6,8,4,5,1,15,85};
+int n[] = {11,2,2,6,8,4,5,1,15,85};
 vector<int> dataSource(n,n+10);
 
 class Solution {
     
     public:
     void quickSort(vector<int> &v,int left,int right) {
-       
-        if(left < right){
-            int key = v[left];
-            int low = left;
-            int high = right;
+        
+        
+        if (left < right) {
             
-            while(low < high){
-                while(low < high && v[high] > key){
-                    high--;
+            int i = left,j = right;
+            int temp = v[left];
+            
+            while (i != j) {
+                
+                while (v[j] >= temp && i < j) {
+                    --j;
                 }
-                v[low] = v[high];
-                while(low < high && v[low] < key){
-                    low++;
+                v[i] = v[j];
+                
+                while (v[i] <= temp && i < j) {
+                    ++i;
                 }
-                v[high] = v[low];
+                v[j] = v[i];
+                
             }
             
-            v[low] = key;
-            quickSort(v,left,low-1);
-            quickSort(v,low+1,right);
+            v[i] = temp;
+            quickSort(v, left, i-1);
+            quickSort(v, i+1, right);
         }
+
     }
 };
 
@@ -51,7 +56,13 @@ int main(int argc, const char * argv[]) {
     
     Solution a;
     
-    a.quickSort(dataSource, 0, 9);
+    vector<int> cp(dataSource);
+    
+    a.quickSort(cp, 0, 9);
+    
+    for (int i = 0; i < size; i++) {
+        cout << cp[i] << "\n";
+    }
     
     for (int i = 0; i < size; i++) {
         cout << dataSource[i] << "\n";
